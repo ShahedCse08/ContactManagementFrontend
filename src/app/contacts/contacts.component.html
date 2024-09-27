@@ -1,0 +1,100 @@
+<div style="display: flex; align-items: center; margin-bottom: 16px;">
+  <nz-input-group [nzSuffix]="suffixIcon" style="flex: 1;">
+    <input
+      nz-input
+      [(ngModel)]="searchTerm"
+      (ngModelChange)="loadContacts()"
+      placeholder="Search contacts..."
+    />
+    <ng-template #suffixIcon>
+      <i nz-icon nzType="search"></i>
+    </ng-template>
+  </nz-input-group>
+
+  <button nz-button nzType="primary" (click)="addContact()" style="margin-left: 16px;">Add Contact</button>
+  <button nz-button nzType="default" (click)="exportToExcel()" style="margin-left: 16px;">
+    Export to Excel
+  </button>
+</div>
+
+
+<nz-table
+  [nzData]="contacts"
+  [nzLoading]="isLoading"
+  [nzTotal]="totalContacts"
+  [nzPageSize]="pageSize"
+  [nzPageIndex]="pageIndex"
+  (nzPageIndexChange)="onPageChange($event)"
+  (nzPageSizeChange)="onPageChange($event)"
+  nzShowPagination
+  nzFrontPagination="false"
+>
+  <thead>
+    <tr>
+      <th nzWidth="20%">Name</th>
+      <th nzWidth="20%">Phone Number</th>
+      <th nzWidth="20%">Contact Type</th>
+      <th nzWidth="25%">Contact Group</th>
+      <th nzWidth="15%"style="text-align: center;">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let contact of contacts">
+      <td>{{ contact.name }}</td>
+      <td>{{ contact.phoneNumber }}</td>
+      <td>
+        <input nz-input [(ngModel)]="contact.contactType" (ngModelChange)="updateContact(contact)" style="width: 100%;" />
+      </td>
+      <td>
+        <nz-select [(ngModel)]="contact.groupId" (ngModelChange)="updateContact(contact)" style="width: 80%;">
+            <nz-option *ngFor="let group of contactGroups" [nzValue]="group.id" [nzLabel]="group.groupName"></nz-option>
+          </nz-select>
+          <button nz-button nzType="default" (click)="showAddModal()" style="margin-left: 8px;">
+            <i nz-icon nzType="plus"></i>
+          </button>
+      </td>
+      <td style="text-align: center;">
+        <nz-dropdown>
+          <a nz-dropdown [nzDropdownMenu]="menu" nz-button nzType="link">
+            <button nz-button nzType="default" nzShape="circle">
+              <i nz-icon nzType="more" nzTheme="outline"></i>
+            </button>
+          </a>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu>
+              <li nz-menu-item (click)="startEdit(contact.id)">
+                <i nz-icon nzType="edit"></i>
+                Edit
+              </li>
+              <li nz-menu-item (click)="deleteContact(contact.id)">
+                <i nz-icon nzType="delete"></i>
+                Delete
+              </li>
+            </ul>
+          </nz-dropdown-menu>
+        </nz-dropdown>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+ 
+
+<nz-modal 
+  [(nzVisible)]="addContactVisible" 
+  nzTitle="Add New Contact Group" 
+  (nzOnCancel)="handleCancel()" 
+  (nzOnOk)="handleOk()" 
+  [nzOkDisabled]="!addGroupForm.valid"
+>
+  <ng-container *nzModalContent>
+    <form [formGroup]="addGroupForm">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzFor="groupName">Group Name</nz-form-label>
+        <nz-form-control [nzSpan]="18">
+          <input nz-input formControlName="groupName" id="groupName" />
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-container>
+</nz-modal>
+

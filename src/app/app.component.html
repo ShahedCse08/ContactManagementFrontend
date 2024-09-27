@@ -1,0 +1,26 @@
+<nz-layout>
+  <nz-header>
+    <div class="logo">Contact Management Assessment at Datavanced</div>
+    <ul nz-menu nzTheme="dark" nzMode="horizontal">
+      <li nz-menu-item routerLink="/contacts"></li>
+    </ul>
+  </nz-header>
+
+  <nz-layout>
+    <nz-sider nzWidth="200" nzTheme="light">
+      <ul nz-menu nzMode="inline" nzTheme="light">
+        <li nz-menu-item routerLink="/contacts"></li>
+      </ul>
+    </nz-sider>
+
+    <!-- Main Content -->
+    <nz-content style="padding: 24px">
+      <div nz-row nzJustify="center">
+        <div nz-col [nzSpan]="20">
+          <!-- This is where the routed components will be displayed -->
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

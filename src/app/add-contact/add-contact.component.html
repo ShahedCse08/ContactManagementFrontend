@@ -1,0 +1,50 @@
+<form [formGroup]="addContactForm" (ngSubmit)="submitAddContact()">
+    <nz-row [nzGutter]="16">
+      <!-- First Column -->
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="8" nzFor="name" nzRequired>Name</nz-form-label>
+          <nz-form-control [nzSpan]="16" nzErrorTip="Please input your name!">
+            <input nz-input formControlName="name" id="name" placeholder="Enter your name" />
+          </nz-form-control>
+        </nz-form-item>
+  
+        <nz-form-item>
+          <nz-form-label [nzSpan]="8" nzFor="phoneNumber" nzRequired>Phone Number</nz-form-label>
+          <nz-form-control [nzSpan]="16" nzErrorTip="Please input a valid phone number!">
+            <input nz-input formControlName="phoneNumber" id="phoneNumber" placeholder="Enter your phone number" />
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+  
+      <!-- Second Column -->
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="8" nzFor="contactType" nzRequired>Contact Type</nz-form-label>
+          <nz-form-control [nzSpan]="16" nzErrorTip="Please input the contact type!">
+            <input nz-input formControlName="contactType" id="contactType" placeholder="Enter contact type" />
+          </nz-form-control>
+        </nz-form-item>
+  
+        <nz-form-item>
+          <nz-form-label [nzSpan]="8" nzFor="groupId" nzRequired>Contact Group</nz-form-label>
+          <nz-form-control [nzSpan]="16" nzErrorTip="Please select a contact group!">
+            <nz-select formControlName="groupId" id="groupId" placeholder="Select a contact group">
+              <nz-option *ngFor="let group of contactGroups" [nzValue]="group.id" [nzLabel]="group.groupName"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+    </nz-row>
+  
+   
+    <nz-row>
+      <nz-col [nzSpan]="24">
+        <div class="button-group" style="text-align: right; margin-top: 16px;">
+          <button nz-button nzType="primary" class="mr-2" [disabled]="addContactForm.invalid">Save</button>
+          <button nz-button nzType="default" (click)="cancel()">Cancel</button>
+        </div>
+      </nz-col>
+    </nz-row>
+  </form>
+  
